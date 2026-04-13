@@ -7,7 +7,15 @@ const App = () => {
   const [newName, setNewName] = useState('')
 
   const addName = (event) => {
-     event.preventDefault() 
+    event.preventDefault() 
+
+    const returnedValue = persons.find(person => person.name === newName)
+
+    if (returnedValue) {
+      alert (`${newName} is already added to phonebook`)
+      return
+    }
+
     const nameObject = {
       name: newName
     }
@@ -29,7 +37,6 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      ...
        <ul>
       {persons.map((person) => (
        <li key={person.name}>{person.name}</li>

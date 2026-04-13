@@ -9,7 +9,9 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault() 
 
-    const returnedValue = persons.find(person => person.name === newName)
+    const returnedValue = persons.find(
+        person => person.name.toLowerCase() === newName.trim().toLowerCase()
+    )
 
     if (returnedValue) {
       alert (`${newName} is already added to phonebook`)
@@ -19,6 +21,7 @@ const App = () => {
     const nameObject = {
       name: newName
     }
+
     setPersons(persons.concat(nameObject))
     setNewName('')
   }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const Filter = ({ filterPerson, setFilterPerson }) => {
   return (
@@ -57,6 +58,12 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterPerson, setFilterPerson] = useState('')
+  const [notification, setNotification] = useState({ message: null, type: null })
+
+  const showNotification = (message, type) => {
+      setNotification({ message, type })
+      setTimeout(() => setNotification({ message: null, type: null }), 5000)
+  }
 
   const addName = (event) => {
       event.preventDefault() 
@@ -75,6 +82,7 @@ const App = () => {
                     setPersons(persons.map(person => person.id !== returnedValue.id ? person : returnedPerson))
                     setNewName('')
                     setNewNumber('')
+                    showNotification(`Updated ${returnedPerson.name}'s number`, 'success')
             })
           }
         return
@@ -90,6 +98,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          showNotification(`Added ${returnedPerson.name}`, 'success')
         })
 
 
@@ -121,6 +130,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={notification.message} type={notification.type} />
       <Filter filterPerson={filterPerson} setFilterPerson={setFilterPerson} />
       <h2>Phonebook</h2>
       <PersonForm addName={addName} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />

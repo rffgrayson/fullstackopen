@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Mary Poppendieck",
-      "number": "1",
-      "id": "4"
-    },
-    {
       "name": "rwerwer",
       "number": "34242",
       "id": "y7QvO1M"
@@ -19,6 +14,16 @@
       "name": "sdfs",
       "number": "23424",
       "id": "zMf6t0u"
+    },
+    {
+      "name": "dfsd",
+      "number": "fsdfsd",
+      "id": "5usLRbr"
+    },
+    {
+      "name": "dsfsdf",
+      "number": "fsdfs",
+      "id": "CLzIDDY"
     }
   ]
 }

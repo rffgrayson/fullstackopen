@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Weather from './components/Weather'
 
 const App = () => {
   const [countries, setCountries] = useState([])
@@ -49,6 +50,7 @@ const App = () => {
             )}
           </ul>
           <img src={countryToShow.flags.png} alt={`flag of ${countryToShow.name.common}`} width={150} />
+          <Weather capital={countryToShow.capital[0]} />
         </div>
       )
     }

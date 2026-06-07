@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 const Filter = ({ filterPerson, setFilterPerson }) => {
   return (
@@ -36,12 +36,15 @@ const PersonForm = ({ addName, newName, setNewName, newNumber, setNewNumber }) =
   )
 }
 
-const Persons = ({ personsToShow }) => {
+const Persons = ({ personsToShow, deletePerson }) => {
   return (
     <div>
       <ul>
         {personsToShow.map(person => 
-          <li key={person.id}>{person.name} {person.number}</li>
+          <li 
+            key={person.id}>{person.name} {person.number}
+            <button onClick={() => deletePerson(person.id, person.name)}>delete</button>
+          </li>
         )}
       </ul>
     </div>
@@ -56,7 +59,6 @@ const App = () => {
   const [filterPerson, setFilterPerson] = useState('')
 
   const addName = (event) => {
-      
       event.preventDefault() 
 
       const returnedValue = persons.find(
@@ -72,22 +74,32 @@ const App = () => {
         name: newName,
         number: newNumber,
       }
-      axios
-        .post('http://localhost:3001/persons', nameObject)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      personService
+        .create(nameObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-      })
+        })
+  }
+
+  const deletePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
   }
 
   const hook = () => {
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data)
-    })
-}
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+  }
 
   useEffect(hook, [])
   
@@ -101,7 +113,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <PersonForm addName={addName} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} deletePerson={deletePerson} />
     </div>
   )
 }

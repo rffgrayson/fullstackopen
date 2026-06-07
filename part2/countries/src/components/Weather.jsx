@@ -4,7 +4,7 @@ import axios from 'axios'
 const Weather = ({ capital }) => {
   const [weather, setWeather] = useState(null)
   const api_key = import.meta.env.VITE_WEATHER_API_KEY
-console.log('api key:', import.meta.env.VITE_WEATHER_API_KEY)
+
   useEffect(() => {
     axios
       .get(`https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${api_key}&units=metric`)

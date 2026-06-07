@@ -83,6 +83,9 @@ const App = () => {
                     setNewName('')
                     setNewNumber('')
                     showNotification(`Updated ${returnedPerson.name}'s number`, 'success')
+            }).catch(error => {
+              showNotification(`Information of ${returnedValue.name} has already been removed from server`, 'error')
+              setPersons(persons.filter(person => person.id !== returnedValue.id))
             })
           }
         return

@@ -66,9 +66,19 @@ const App = () => {
       )
 
       if (returnedValue) {
-        alert (`${newName} is already added to phonebook`)
+          if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+              const updatedPerson = { ...returnedValue, number: newNumber }
+
+              personService
+                .update(returnedValue.id, updatedPerson)
+                .then(returnedPerson => {
+                    setPersons(persons.map(person => person.id !== returnedValue.id ? person : returnedPerson))
+                    setNewName('')
+                    setNewNumber('')
+            })
+          }
         return
-      }
+    }
 
       const nameObject = {
         name: newName,
@@ -81,6 +91,8 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+
+
   }
 
   const deletePerson = (id, name) => {
